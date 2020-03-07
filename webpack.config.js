@@ -1,50 +1,60 @@
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const webpack = require("webpack")
 const path = require("path")
 
-module.exports = [
-  {
-    mode: "development",
-    entry: "./scuttlefish/electron.ts",
-    target: "electron-main",
-    module: {
-      rules: [
-        {
-          test: /\.ts$/,
-          include: path.resolve(__dirname, "scuttlefish"),
-          use: [{ loader: "ts-loader" }]
-        }
-      ]
-    },
-    output: {
-      path: path.resolve(__dirname, "dist"),
-      filename: "electron.js"
-    }
+module.exports = {
+  mode: "development",
+  target: "electron-renderer",
+  devtool: "eval-source-map",
+  devServer: {
+    historyApiFallback: true
   },
-  {
-    mode: "development",
-    target: "electron-renderer",
-    devtool: "source-map",
-    entry: "./scuttlefish/index.tsx",
-    module: {
-      rules: [
-        {
-          test: /\.tsx?$/,
-          include: path.resolve(__dirname, "scuttlefish"),
-          use: [{ loader: "ts-loader" }]
-        }
-      ]
+  entry: "./scuttlefish/index.tsx",
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        include: path.resolve(__dirname, "scuttlefish"),
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              cacheDirectory: true,
+              babelrc: false,
+              presets: [
+                [
+                  "@babel/preset-env",
+                  { targets: { browsers: "last 1 version" } }
+                ],
+                "@babel/preset-typescript",
+                "@babel/preset-react"
+              ],
+              plugins: ["react-hot-loader/babel"]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  output: {
+    publicPath: "http://localhost:8080/"
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: "index.html",
+      template: path.resolve(__dirname, "scuttlefish", "index.html"),
+      inject: false
+    }),
+    new ForkTsCheckerWebpackPlugin(),
+    new webpack.NamedModulesPlugin()
+  ],
+  resolve: {
+    alias: {
+      "react-dom": "@hot-loader/react-dom"
     },
-    output: {
-      filename: "main.js",
-      path: path.resolve(__dirname, "dist")
-    },
-    plugins: [
-      new HtmlWebpackPlugin({
-        template: "./scuttlefish/index.html"
-      })
-    ],
-    resolve: {
-      extensions: [".ts", ".tsx", ".js"]
-    }
-  }
-]
+    extensions: [".ts", ".tsx", ".js"],
+    modules: ["node_modules"]
+  },
+  stats: "minimal"
+}

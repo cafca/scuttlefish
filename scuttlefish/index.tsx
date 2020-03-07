@@ -1,7 +1,8 @@
+import "core-js/stable"
+import "regenerator-runtime/runtime"
+import "react-hot-loader"
 import React from "react"
 import ReactDOM from "react-dom"
 import Routes from "./routes"
 
-const App = () => <Routes />
-
-ReactDOM.render(<App />, document.getElementById("root"))
+ReactDOM.render(<Routes />, document.getElementById("root"))
