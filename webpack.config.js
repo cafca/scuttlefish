@@ -14,10 +14,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"]
-      },
-      {
         test: /\.tsx?$/,
         include: path.resolve(__dirname, "scuttlefish"),
         use: [

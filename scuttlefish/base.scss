@@ -1,0 +1,108 @@
+html,
+body {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  background-color: rgb(67, 65, 65);
+  padding: 1em;
+  color: #ccc;
+}
+
+button {
+  padding: 4px 10px;
+  border-color: transparent;
+  border-radius: 3px;
+  font-size: 1em;
+  margin-right: 8px;
+  text-decoration: none !important;
+  background: #383736;
+  color: #aaa;
+}
+
+.content {
+  flex: 1;
+  max-width: 45em;
+}
+
+.edge {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 25px auto;
+  background: transparent;
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  line-height: 1.4;
+  flex-shrink: 0;
+  background: #383736;
+}
+
+.replies {
+  font-size: 100%;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #2d2c2c;
+}
+
+.edge > div.replies > div + div {
+  border-top: 1px solid #2d2c2c;
+}
+
+.post header {
+  margin: 15px 20px 0;
+  font-size: 120%;
+  display: flex;
+}
+
+.post header .main {
+  display: block;
+  flex: 1;
+}
+
+.post img.avatar {
+  border-radius: 3px;
+  width: 50px;
+  height: 50px;
+}
+
+.post header .main {
+  margin-left: 10px;
+}
+
+.post header .main .meta {
+  font-size: 75%;
+  color: #8a8a8a;
+}
+
+.post header > .meta {
+  font-size: 85%;
+  color: #757474;
+}
+
+.post header > .meta .likes::before {
+  content: "❤ ";
+  color: #ff2f92;
+}
+
+.post section {
+  margin: 0;
+  padding: 0 20px;
+  max-height: 1170px;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+.post section a {
+  color: #898df7;
+}
+
+.post section a[href^="@"] {
+  color: #efef00;
+  border-bottom: 1px dotted #efef00;
+}
+
+.indent-1 {
+  margin-left: 2em;
+}

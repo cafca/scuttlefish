@@ -1,4 +1,5 @@
 const loadImage = (uri: string) => {
+  if (uri == null) return null
   let result = ""
   // convert base64 to base16
   const raw = atob(uri.slice(1, 45))
