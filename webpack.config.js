@@ -14,6 +14,10 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"]
+      },
+      {
         test: /\.tsx?$/,
         include: path.resolve(__dirname, "scuttlefish"),
         use: [
@@ -38,7 +42,7 @@ module.exports = {
     ]
   },
   output: {
-    publicPath: "http://localhost:8080/"
+    publicPath: "blobs/"
   },
   plugins: [
     new HtmlWebpackPlugin({

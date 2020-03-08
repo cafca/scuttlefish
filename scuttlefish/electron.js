@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require("electron")
+const { app, BrowserWindow, protocol } = require("electron")
 const path = require("path")
 const os = require("os")
 
@@ -15,7 +15,7 @@ const createWindow = async () => {
   })
 
   // mainWindow.loadFile(path.join(__dirname, "dist/index.html"))
-  mainWindow.loadURL("http://localhost:8080/index.html")
+  mainWindow.loadURL("http://localhost:8080")
 
   mainWindow.on("closed", () => {
     mainWindow = null
@@ -34,6 +34,18 @@ app.on("ready", () => {
       "/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.5.0_0/"
     )
   )
+
+  protocol.interceptFileProtocol(
+    "file",
+    (request, callback) => {
+      const url = request.url.substr(7) /* all urls start with 'file://' */
+      callback({ path: path.normalize(`${__dirname}/${url}`) })
+    },
+    err => {
+      if (err) console.error("Failed to register protocol")
+    }
+  )
+
   createWindow()
 })
 

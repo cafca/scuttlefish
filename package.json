@@ -7,7 +7,7 @@
   "scripts": {
     "start": "yarn run watch & yarn run start:electron & yarn run start:ssb-patchql",
     "start:electron": "nodemon -q -w scuttlefish/electron.js -x 'electron scuttlefish/electron.js'",
-    "start:ssb-patchql": "nodemon -q -x ssb-patchql/http_server",
+    "start:ssb-patchql": "nodemon -q -w .env -x ssb-patchql/http_server",
     "watch": "webpack-dev-server --hot",
     "build": "webpack",
     "lint": "eslint ."
@@ -47,9 +47,13 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "@apollo/react-hooks": "^3.1.3",
     "@hot-loader/react-dom": "16.12.0",
+    "apollo-boost": "^0.4.7",
+    "graphql": "^14.6.0",
     "react": "16.12.0",
     "react-dom": "16.12.0",
+    "react-markdown": "^4.3.1",
     "react-router-dom": "^5.1.2"
   }
 }
