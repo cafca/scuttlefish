@@ -38,7 +38,7 @@ module.exports = {
     ]
   },
   output: {
-    publicPath: "blobs/"
+    publicPath: "/"
   },
   plugins: [
     new HtmlWebpackPlugin({
