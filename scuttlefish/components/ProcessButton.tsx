@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react"
-import { useMutation } from "@apollo/react-hooks"
+import React, { useState } from "react";
+import { useMutation } from "@apollo/react-hooks";
 
-import { gql } from "apollo-boost"
+import { gql } from "apollo-boost";
 
 const PROCESS = gql`
   mutation process($chunkSize: Int!) {
@@ -10,26 +10,28 @@ const PROCESS = gql`
       latestSequence
     }
   }
-`
+`;
 
-type ProcessResult = {
-  data?: { process: { latestSequence: number } }
+interface ProcessResult {
+  data?: { process: { latestSequence: number } };
 }
 
-export default () => {
-  const [firstSequence, setFirstSequence] = useState(null)
-  const [latestSequence, setLatestSequence] = useState(null)
-  const [runProcess, { loading, error }] = useMutation(PROCESS)
+const ProcessButton: React.SFC = () => {
+  const [firstSequence, setFirstSequence] = useState<number | undefined>(null);
+  const [latestSequence, setLatestSequence] = useState<number | undefined>(
+    null
+  );
+  const [runProcess, { loading, error }] = useMutation(PROCESS);
 
-  const onClick = async (e: React.MouseEvent) => {
-    e.preventDefault()
+  const onClick = async (e: React.MouseEvent): Promise<void> => {
+    e.preventDefault();
     const result: ProcessResult = await runProcess({
       variables: { chunkSize: 1000 }
-    })
-    const latestSequence = result.data?.process.latestSequence
-    setLatestSequence(latestSequence)
-    if (firstSequence == null) setFirstSequence(latestSequence)
-  }
+    });
+    const latestSequence = result.data?.process.latestSequence;
+    setLatestSequence(latestSequence);
+    if (firstSequence == null) setFirstSequence(latestSequence);
+  };
 
   return (
     <div>
@@ -41,5 +43,7 @@ export default () => {
       )}
       {error != null && <span style={{ color: "red" }}>{error.message}</span>}
     </div>
-  )
-}
+  );
+};
+
+export default ProcessButton;

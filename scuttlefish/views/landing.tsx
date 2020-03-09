@@ -1,11 +1,9 @@
-import React from "react"
-import { gql } from "apollo-boost"
-import { useQuery } from "@apollo/react-hooks"
-import ReactMarkdown from "react-markdown"
-import imageUtils from "../ssb-utils/images"
-import ProcessButton from "../components/ProcessButton"
-
-import "style-loader!css-loader!sass-loader!../base.scss"
+import React from "react";
+import { gql } from "apollo-boost";
+import { useQuery } from "@apollo/react-hooks";
+import ReactMarkdown from "react-markdown";
+import imageUtils from "../ssb-utils/images";
+import ProcessButton from "../components/ProcessButton";
 
 const TIMELINE = gql`
   {
@@ -38,12 +36,24 @@ const TIMELINE = gql`
       }
     }
   }
-`
+`;
 
-const Post = ({ data }) => {
-  const created = new Date(data.assertedTimestamp).toLocaleString()
+interface PostProps {
+  data: {
+    assertedTimestamp: string;
+    author?: {
+      imageLink?: string;
+      name?: string;
+    };
+    likesCount: number;
+    text: string;
+  };
+}
+
+const Post: React.FunctionComponent<PostProps> = ({ data }: PostProps) => {
+  const created = new Date(data.assertedTimestamp).toLocaleString();
   return (
-    <div className="post" key={`post-${data.id}`}>
+    <div className="post">
       <header>
         <img
           className="avatar"
@@ -64,36 +74,62 @@ const Post = ({ data }) => {
         />
       </section>
     </div>
-  )
+  );
+};
+
+interface Post {
+  id: string;
+  text: string;
+  likesCount: number;
+  assertedTimestamp: string;
+  author: {
+    id: string;
+    imageLink?: string;
+    name?: string;
+  };
 }
 
-interface Props {}
+interface Edge {
+  node: {
+    root: Post;
+    replies: Post[];
+  };
+}
 
-const Landing: React.FunctionComponent<Props> = () => {
-  const { loading, error, data } = useQuery(TIMELINE)
-  if (loading) return <p>Loading...</p>
-  if (error) {
-    console.error(error)
-    return <p>Error :(</p>
+interface TimelineData {
+  threads: {
+    edges: Edge[];
+  };
+}
+
+const Landing: React.FunctionComponent = () => {
+  const { loading, error, data } = useQuery<TimelineData>(TIMELINE);
+  if (loading) return <p>Loading...</p>;
+  if (error != null) {
+    console.error(error);
+    return <p>Error :(</p>;
   }
 
   return (
     <div>
       <ProcessButton />
       <div className="content">
-        {data.threads.edges.map(({ node }) => (
-          <div className="edge" key={`edge-${node.root.id}`}>
-            <Post data={node.root} />
-            <div className="replies">
-              {node.replies.map(reply => (
-                <Post data={reply} />
-              ))}
+        {data.threads.edges.map(({ node }) => {
+          const rootId: string = node.root.id;
+          return (
+            <div className="edge" key={`edge-${rootId}`}>
+              <Post data={node.root} />
+              <div className="replies">
+                {node.replies.map(reply => (
+                  <Post data={reply} key={reply.id} />
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Landing
+export default Landing;

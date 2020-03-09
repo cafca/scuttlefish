@@ -1,12 +1,22 @@
 html,
 body {
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   background-color: rgb(67, 65, 65);
-  padding: 1em;
   color: #ccc;
+  display: flex;
+  flex-direction: column;
+  font-family: "Lucida Grande", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 16px;
+  line-height: 1.2em;
+  -webkit-user-select: none;
+  margin: 0;
 }
 
-button {
+.main {
+  padding: 1em;
+}
+
+button,
+.navbar a {
   padding: 4px 10px;
   border-color: transparent;
   border-radius: 3px;
