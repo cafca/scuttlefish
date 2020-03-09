@@ -3,7 +3,8 @@ module.exports = {
     "standard-with-typescript",
     "prettier", // keep prettier* last
     "prettier/standard",
-    "prettier/@typescript-eslint"
+    "prettier/@typescript-eslint",
+    "plugin:react/recommended"
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -12,9 +13,14 @@ module.exports = {
       tsx: true
     }
   },
-  plugins: ["@typescript-eslint", "prettier", "standard"],
+  plugins: ["@typescript-eslint", "prettier", "standard", "react"],
   root: true,
   rules: {
-    "react/jsx-uses-vars": true
+    "react/jsx-uses-vars": 1
+  },
+  settings: {
+    react: {
+      version: "detect"
+    }
   }
-}
+};
