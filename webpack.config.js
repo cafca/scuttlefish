@@ -1,7 +1,7 @@
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin")
-const HtmlWebpackPlugin = require("html-webpack-plugin")
-const webpack = require("webpack")
-const path = require("path")
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
+const path = require("path");
 
 module.exports = {
   mode: "development",
@@ -34,6 +34,10 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.scss$/,
+        use: ["style-loader", "css-loader", "sass-loader"]
       }
     ]
   },
@@ -44,7 +48,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: path.resolve(__dirname, "scuttlefish", "index.html"),
-      inject: false
+      inject: false,
+      hash: true
     }),
     new ForkTsCheckerWebpackPlugin(),
     new webpack.NamedModulesPlugin()
@@ -57,4 +62,4 @@ module.exports = {
     modules: ["node_modules"]
   },
   stats: "minimal"
-}
+};

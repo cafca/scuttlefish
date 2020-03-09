@@ -1,6 +1,6 @@
 import React from "react";
 
-import "style-loader!css-loader!sass-loader!./style.scss";
+import "./style.scss";
 
 const HistoryControls: React.SFC = () => (
   <span className="historyControls">
