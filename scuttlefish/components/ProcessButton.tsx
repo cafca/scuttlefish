@@ -25,12 +25,21 @@ const ProcessButton: React.SFC = () => {
 
   const onClick = async (e: React.MouseEvent): Promise<void> => {
     e.preventDefault();
+    console.log("Processing");
     const result: ProcessResult = await runProcess({
       variables: { chunkSize: 1000 }
     });
     const latestSequence = result.data?.process.latestSequence;
     setLatestSequence(latestSequence);
-    if (firstSequence == null) setFirstSequence(latestSequence);
+    if (firstSequence == null) {
+      setFirstSequence(latestSequence);
+    }
+
+    if (latestSequence > firstSequence) {
+      setTimeout(() => {
+        onClick(e);
+      }, 250);
+    }
   };
 
   return (

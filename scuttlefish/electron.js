@@ -1,5 +1,5 @@
 process.on("uncaughtException", function(err) {
-  console.log(err);
+  console.error(err);
   process.exit();
 });
 
@@ -50,12 +50,18 @@ const createWindow = async () => {
 };
 
 app.on("ready", () => {
-  BrowserWindow.addDevToolsExtension(
-    path.join(
-      os.homedir(),
-      "/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.5.0_0/"
-    )
-  );
+  try {
+    BrowserWindow.addDevToolsExtension(
+      path.join(
+        os.homedir(),
+        "/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.8.2_0/"
+      )
+    );
+  } catch (e) {
+    console.error(
+      "Unable to register Chrome's React developer tools. Please adjust extension path in electron.js"
+    );
+  }
 
   protocol.interceptFileProtocol(
     "file",

@@ -5,7 +5,7 @@
   "author": "Vincent Ahrend <mail@vincentahrend.com>",
   "license": "GPL-3.0",
   "scripts": {
-    "start": "yarn run watch & yarn run start:electron & yarn run start:ssb-patchql",
+    "start": "yarn run watch & yarn run start:ssb-patchql & yarn run start:electron",
     "start:electron": "nodemon -q -w scuttlefish/electron.js -x 'electron scuttlefish/electron.js'",
     "start:ssb-patchql": "nodemon -q -w .env -x ssb-patchql/http_server",
     "watch": "webpack-dev-server --hot",
